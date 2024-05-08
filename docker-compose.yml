@@ -1,7 +1,7 @@
-version: "3.5"
+version: '3.5'
 services:
   squidex_mongo:
-    image: "mongo:6"
+    image: 'mongo:6'
     volumes:
       - /etc/squidex/mongo/db:/data/db
     networks:
@@ -9,7 +9,7 @@ services:
     restart: unless-stopped
 
   squidex_squidex:
-    image: "squidex/squidex:7"
+    image: 'squidex/squidex:7'
     environment:
       - URLS__BASEURL=https://${SQUIDEX_DOMAIN}
       - EVENTSTORE__TYPE=MongoDB
@@ -25,7 +25,7 @@ services:
       - IDENTITY__MICROSOFTSECRET=${SQUIDEX_MICROSOFTSECRET}
       - ASPNETCORE_URLS=http://+:5000
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5000/healthz"]
+      test: ['CMD', 'curl', '-f', 'http://localhost:5000/healthz']
       start_period: 60s
     depends_on:
       - squidex_mongo
@@ -38,8 +38,8 @@ services:
   squidex_proxy:
     image: squidex/caddy-proxy
     ports:
-      - "80:80"
-      - "443:443"
+      - '80:80'
+      - '443:443'
     environment:
       - SITE_ADDRESS=${SQUIDEX_DOMAIN}
       - SITE_SERVER="squidex_squidex:5000"
@@ -51,7 +51,7 @@ services:
     networks:
       - internal
     restart: unless-stopped
-    
+
 networks:
   internal:
     driver: bridge
